@@ -2,12 +2,11 @@ package Kwiki::Favorites;
 use strict;
 use warnings;
 use Kwiki::Plugin '-Base';
-use Kwiki::Installer '-base';
-our $VERSION = '0.10';
+use mixin 'Kwiki::Installer';
+our $VERSION = '0.11';
 
 const class_id => 'favorites';
 const class_title => 'Favorites';
-const screen_template => 'favorites_screen.html';
 const css_file => 'favorites.css';
 
 sub register {
@@ -25,7 +24,8 @@ sub register {
 }
 
 sub favorites {
-    my $favorites = $self->hub->cookie->jar->{favorites} || {};
+    my $favorites = 
+      $self->hub->load_class('cookie')->jar->{favorites} || {};
     my @pages = sort {
         $b->metadata->edit_unixtime <=> $a->metadata->edit_unixtime;
     } map {
@@ -123,9 +123,9 @@ function favorites_change(self) {
 Favorite?
 <iframe height="0" width="0" frameborder="0"></iframe>
 </form>
-__template/tt2/favorites_screen.html__
+__template/tt2/favorites_content.html__
+<!-- BEGIN favorites_content.html -->
 [% screen_title = "Personal Favorites" %]
-[% INCLUDE kwiki_layout_begin.html %]
 [% IF not pages.size %]
 <b>You have not selected any favorites.</b>
 [% END %]
@@ -138,4 +138,4 @@ __template/tt2/favorites_screen.html__
 </tr>
 [% END %]
 </table>
-[% INCLUDE kwiki_layout_end.html %]
+<!-- END favorites_content.html -->

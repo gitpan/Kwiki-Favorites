@@ -8,7 +8,7 @@ version_from('lib/Kwiki/Favorites.pm');
 
 requires(qw(
     perl 5.6.1
-    Kwiki 0.31
+    Kwiki 0.32
 ));
 
 check_nmake();
