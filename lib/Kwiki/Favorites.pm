@@ -1,7 +1,7 @@
 package Kwiki::Favorites;
 use Kwiki::Plugin -Base;
 use mixin 'Kwiki::Installer';
-our $VERSION = '0.12';
+our $VERSION = '0.13';
 
 const class_id => 'favorites';
 const css_file => 'favorites.css';
@@ -22,7 +22,7 @@ sub register {
 
 sub favorites {
     my $favorites = 
-      $self->hub->load_class('cookie')->jar->{favorites} || {};
+      $self->hub->cookie->jar->{favorites} || {};
     my @pages = sort {
         $b->metadata->edit_unixtime <=> $a->metadata->edit_unixtime;
     } map {
